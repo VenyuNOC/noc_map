@@ -24,13 +24,11 @@ gulp.task('copy-html', function() {
     .pipe(gulp.dest('dist/'));
 });
 
-// gulp.task(
-//   'default',
-//   gulp.series('sass', function(cb) {
-//     gulp.watch('scss/*.scss', gulp.series('sass'));
-//     cb();
-//   })
-// );
+gulp.task('copy-images', function() {
+  gulp
+    .src('node_modules/leaflet/dist/images/*.png')
+    .pipe(gulp.dest('dist/'));
+});
 
 gulp.task(
   'default',
@@ -45,6 +43,10 @@ gulp.task(
     }),
     gulp.series('sass', function(cb) {
       gulp.watch('scss/*.scss', gulp.task('sass'))
+      cb()
+    }),
+    gulp.series('copy-images', function(cb) {
+      gulp.watch('node_modules/leaflet/dist/images/*.png', gulp.task('copy-images'))
       cb()
     })
   )
