@@ -12,6 +12,8 @@ gulp.task('sass', function(cb) {
 });
 
 gulp.task('browserify', function() {
+  gulp.src()
+
   return browserify('js/network_map.js')
     .bundle()
     .pipe(source('bundle.js'))
