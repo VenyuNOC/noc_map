@@ -3,12 +3,16 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "inlineSourceMap": true,
-        "watch": true,
+        "noImplicitReturns": true,
         "strict": true,
-        "target": "ES2016",
-        "outFile": "js/network_map.js",
-        "module": "AMD",
-        "noImplicitReturns": true
+        "target": "ES6",
+        "moduleResolution": "node",
+        "outDir": "src/js"
     },
-    "include": ["ts/**/*.ts"]
+    "include": [
+        "src/ts/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

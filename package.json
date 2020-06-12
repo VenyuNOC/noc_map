@@ -10,17 +10,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "leaflet": "^1.6.0",
+    "mongoose": "^5.9.18"
+  },
+  "devDependencies": {
     "@types/geojson": "^7946.0.7",
     "@types/leaflet": "^1.5.12",
+    "@types/mongoose": "^5.7.24",
     "browserify": "^16.5.1",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.1.0",
-    "leaflet": "^1.6.0",
+    "tsify": "^4.0.2",
     "typescript": "^3.9.5",
+    "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
-  },
-  "devDependencies": {
-    "@types/mongoose": "^5.7.23",
-    "mongoose": "^5.9.18"
   }
 }
