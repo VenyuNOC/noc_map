@@ -73,7 +73,3 @@ gulp.task('build', function (cb) {
     );
     cb();
 });
-
-gulp.task('clean', function () {
-    gulp.em
-})
