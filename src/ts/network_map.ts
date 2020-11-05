@@ -12,29 +12,31 @@ function setupMap(latLon: L.LatLng, zoom: number) {
         subdomains: 'abcd',
         maxZoom: 19
     });
-    var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    });
     var clouds = L.tileLayer(`http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png?appid=${appId}`, {
         maxZoom: 19,
         attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>',
-        opacity: 0.5
+        opacity: 0.7
     });
     var precip = L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${appId}`, {
         maxZoom: 19,
         attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>',
-        opacity: 0.5
+        opacity: .9
     });
 
     
     
     var noc_map = L.map('map', {center: latLon, zoom: zoom, layers: [baseMap]});
-    var baseMaps = {"CartoDB Dark": baseMap, "OSM Mapnik": OpenStreetMap_Mapnik};
+    var baseMaps = {"CartoDB Dark": baseMap};
     var overlayMaps = {"Clouds": clouds, "Precipitation": precip}
+
+    clouds.addTo(noc_map);
+    precip.addTo(noc_map);
+
     var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(noc_map);
 
     L.control.scale().addTo(noc_map);
+
+    
 
     return noc_map;
 }
@@ -71,4 +73,9 @@ window.onload = () => {
             }
         ]
     )
+
+    window.setInterval(() => {
+        console.log('invalidating map');
+        noc_map.invalidateSize();
+    }, 5 * 60 * 1000);
 }
