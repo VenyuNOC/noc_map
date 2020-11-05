@@ -7,10 +7,10 @@
         "strict": true,
         "target": "ES6",
         "moduleResolution": "node",
-        "outDir": "src/js"
+        "outDir": "build/js"
     },
     "include": [
-        "src/ts/**/*.ts"
+        "src/ts/**/*.ts", "src/main.ts"
     ],
     "exclude": [
         "node_modules"
