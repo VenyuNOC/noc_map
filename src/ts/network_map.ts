@@ -36,8 +36,6 @@ function setupMap(latLon: L.LatLng, zoom: number) {
 
     L.control.scale().addTo(noc_map);
 
-    
-
     return noc_map;
 }
 
@@ -54,7 +52,7 @@ function addEndpoints(noc_map: L.Map, endpoints: IEndpoint[]) {
 
 window.onload = () => {
     var noc_map = setupMap(
-        new L.LatLng(31.482293, -92.431661), 
+        new L.LatLng(30.45167, -91.11642), 
         8
     );
 
