@@ -1,18 +1,26 @@
 {
-    "compileOnSave": true,
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "inlineSourceMap": true,
-        "noImplicitReturns": true,
-        "strict": true,
-        "target": "ES6",
-        "moduleResolution": "node",
-        "outDir": "build/js"
-    },
-    "include": [
-        "src/ts/**/*.ts", "src/main.ts"
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "exclude": [
-        "node_modules"
-    ]
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
 }
