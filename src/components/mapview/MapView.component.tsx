@@ -14,9 +14,26 @@ type Props = {
 }
 
 export default class MapView extends React.Component<Props> {
+    taskId: number = 0;
+
+    private updateMap() {
+        window.location.reload();
+    }
+
+    componentDidMount() {
+        this.taskId = window.setInterval(this.updateMap.bind(this), 5 * 1000 * 60);
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.taskId);
+    }
+
     render() {
         return (
-            <MapLayer center={[31.3113, -92.4451]} zoom={8}>
+            <MapLayer 
+                center={[31.3113, -92.4451]} 
+                zoom={8}
+            >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
                     url='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
