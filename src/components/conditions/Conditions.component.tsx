@@ -6,14 +6,12 @@ import { ReactComponent as Arrow } from './arrow.svg';
 type Props = {
     station: string;
     longName: string;
-    top: string;
-    left: string;
 }
 type State = {
-    low: number;
-    high: number;
+    dewpoint: number;
+    temperature: number;
     heatIndex: number;
-    humidity: number;
+    relativeHumidity: number;
     icon: string;
     windSpeed: number;
     windDirection: number;
@@ -26,16 +24,16 @@ const ConditionsCard = styled.div`
 `
 
 const ConditionsHeader = styled.div`
-    height: 116px;
-    width: 476px;
-    background: #b0d89a;
-    border: 2px black solid;
+    height: 120px;
+    width: 480px;
+    background: #454545;
+    color: white;
     display: grid;
     place-items: center;
 `
 
 const HeaderText = styled.div`
-    font-size: 5rem;
+    font-size: 4.8rem;
 `
 
 const ConditionsDetails = styled.div`
@@ -44,128 +42,150 @@ const ConditionsDetails = styled.div`
     background: rgba(69,69,69,0.8);
 `
 
-const NumericContainer = styled.div`
-    grid-area: numbers;
+const Temperatures = styled.div`
+    position: absolute;
+    top: 140px;
+    left: 166px;
+    width: 69px;
+    height: 136px;
 
     display: grid;
-    grid-template-areas:
-        "hi low"
-        "heat humid"
-        "speed direction";
-    
-    text-align: center;
+    place-items: center;
 
-    & span {
-        font-size: 1.9rem;
-    }
-
-    & > div {
-        display: grid;
-        place-items: center;
-        margin: 0;
-        width: 120px;
-        height: 50px;
-    }
-
-    position: relative;
-    top: 30px;
-    left: 30px;
-    height: 150px;
-    width: 240px;
+    background: #454545;
+    color: white;
 `
 
-const HighTemp = styled.div`
-    grid-area: hi;
-    background: #d8ab9a;
+const Numbers = styled.div`
+    position: absolute;
+    top: 286px;
+    left: 20px;
+
+    display: grid;
+    place-items: center;
+
+    width: 215px;
+    height: 174px;
+
+    background: #454545;
 `
 
-const LowTemp = styled.div`
-    grid-area: low;
-    background: #9accd8;
-`
+const Wind = styled.div`
+    position: absolute;
+    top: 140px;
+    left: 245px;
 
-const HeatIndex = styled.div`
-    grid-area: heat;
-    background: #d8c39a;
-`
+    width: 215px;
+    height: 320px;
 
-const Humidity = styled.div`
-    grid-area: humid;
-    background: #d8d79a;
+    color: white;
+    background: #454545;
 `
 
 const WindSpeed = styled.div`
-    grid-area: speed;
-    background: #b0d89a;
-`
-
-const WindDirection = styled.div`
-    grid-area: direction;
-    background: #b0d89a;
+    text-align: center;
+    height: 120px;
+    & span {
+        font-size: 2rem;
+    }
 `
 
 type IndicatorProps = { angle: number };
 const WindIndicator = styled.div<IndicatorProps>`
-    transform: rotate(${props => props.angle}deg);
-    width: 1.5vw;
-    height: 1.5vh;
+    transform: rotate(${props => props.angle }deg);
+    margin-left: 20px;
+    width: 10rem;
+    height: 10rem;
+`
+
+const StyledArrow = styled(Arrow)`
+    fill: white;
 `
 
 const ConditionsIcon = styled.div`
-    position: absolute;
-    top:  150px;
-    left: 300px;
-    width: 150px;
-    height: 150px;
-    background: #d8bf9a;
+    width: 136;
+    height: 136px;
+
+    position: relative;
+    top: 20px;
+    left: 20px;
 `
 
-const AlertPanel = styled.div`
-    position: absolute;
-    top: 330px;
-    left: 30px;
-    width: 420px;
-    height: 120px;
-    background: #f33b57;
+const Field = styled.div`
+    display: grid;
+    place-items: center;
+    color: white;
+
+    & span {
+        font-size: 2rem;
+    }
+`
+
+const TemperatureField = styled(Field)`
+    & span::after {
+        content: '\\00b0 F';
+        font-size: 1rem;
+    }
+`
+const PercentField = styled(Field)`
+    & span::after {
+        content: '%';
+        font-size: 1rem;
+    }
 `
 
 export default class Conditions extends React.Component<Props, State> {
+    taskId = 0;
+
     constructor(props: Props) {
         super(props);
         this.state = {
-            low: 0,
-            high: 0,
+            dewpoint: 0,
+            temperature: 0,
             heatIndex: 0,
-            humidity: 0,
+            relativeHumidity: 0,
             icon: "",
             windSpeed: 0,
             windDirection: 0
         }
     }
 
+    componentDidMount() {
+        console.log(`http://localhost:8000/api/v1/conditions/${this.props.station}`)
+        fetch(`http://localhost:8000/api/v1/conditions/${this.props.station}`)
+            .then(response => response.json())
+            .then((j: State) => {
+                this.setState(j);
+            },
+            (error) => {
+                this.setState(this.state);
+            });
+    }
+
     render() {
         return (
-            <ConditionsCard style={{top: this.props.top, left: this.props.left, zIndex: 100}}>
+            <ConditionsCard>
                 <ConditionsHeader>
                     <HeaderText>{this.props.longName}</HeaderText>
                 </ConditionsHeader>
                 <ConditionsDetails>
-                    <NumericContainer>
-                        <HighTemp>Hi<span>{this.state.high}&deg;F</span></HighTemp>
-                        <LowTemp>Lo<span>{this.state.low}&deg;F</span></LowTemp>
-                        <HeatIndex>Heat index<span>{this.state.heatIndex}&deg;F</span></HeatIndex>
-                        <Humidity>Humidity<span>{this.state.heatIndex}%</span></Humidity>
-                        <WindSpeed>Wind<span>{this.state.heatIndex}mph</span></WindSpeed>
-                        <WindDirection>
-                            <WindIndicator angle={this.state.windDirection}>
-                                <Arrow />
-                            </WindIndicator>
-                        </WindDirection>
-                    </NumericContainer>
                     <ConditionsIcon>
-                        <img src="//unsplash.it/150/150" alt="current conditions"/>
+                        <img src={this.state.icon || "//unsplash.it/136/136"} alt="current conditions"/>
                     </ConditionsIcon>
-                    <AlertPanel></AlertPanel>
+                    <Temperatures>
+                        <TemperatureField><span>{this.state.temperature.toFixed(0)}</span></TemperatureField>
+                        <TemperatureField><span>{this.state.dewpoint.toFixed(0)}</span></TemperatureField>
+                    </Temperatures>
+                    <Numbers>
+                        <PercentField>Humidity <span>{this.state.relativeHumidity.toFixed(0)}</span></PercentField>
+                        {this.state.heatIndex !== 0 && <TemperatureField>Heat Index <span>{this.state.heatIndex.toFixed(0)}</span></TemperatureField>}
+                    </Numbers>
+                    <Wind>
+                        <WindSpeed>Wind <span>{this.state.windSpeed.toFixed(0)}</span> mph<br/>at <span>{this.state.windDirection}&deg;</span></WindSpeed>
+                        <WindIndicator angle={this.state.windDirection}>
+                            <StyledArrow />
+                        </WindIndicator>
+                    </Wind>
                 </ConditionsDetails>
             </ConditionsCard>
         );
