@@ -1,4 +1,5 @@
 import React from 'react';
+import Alerts from './components/alerts/Alerts.component';
 import Conditions from './components/conditions/Conditions.component';
 import MapView from './components/mapview/MapView.component';
 
@@ -31,6 +32,7 @@ export default class App extends React.Component {
           <Conditions station={"shv"} longName={"Shreveport"} />
         </div>
         <MapView appId={`${process.env.REACT_APP_OWM_API_KEY}`} />
+        <Alerts />
       </div>
     )
   }
