@@ -5,7 +5,7 @@ type Alert = {
     headline: string,
     affecting: string[],
     severity: "moderate" | "severe" | "extreme",
-    expiration: Date
+    expiration: string
 }
 type Props = {}
 type State = {
@@ -71,7 +71,7 @@ export default class Alerts extends React.Component<Props, State> {
     render() {
         var alerts = this.state.alerts.map((a) => {
             return (
-                <AlertRow severity={a.severity} key={a.expiration.toISOString()}>
+                <AlertRow severity={a.severity} key={a.expiration}>
                     <div id="affected">
                         {a.affecting.join(', ')}
                     </div>
@@ -79,7 +79,7 @@ export default class Alerts extends React.Component<Props, State> {
                         {a.headline}
                     </div>
                     <div id="expires">
-                        until {a.expiration.toISOString()}
+                        until {a.expiration}
                     </div>
                 </AlertRow>
             );
