@@ -41,7 +41,7 @@ export default class MapView extends React.Component<Props> {
                 />
                 <TileLayer
                     attribution='Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>'
-                    url={`http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png?appid=${this.props.appId}`}
+                    url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${this.props.appId}`}
                     opacity={0.5}
                     maxZoom={19}
                 />
