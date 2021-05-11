@@ -92,7 +92,7 @@ const WindSpeed = styled.div`
 
 type IndicatorProps = { angle: number };
 const WindIndicator = styled.div<IndicatorProps>`
-    transform: rotate(${props => props.angle }deg);
+    transform: rotate(${props => 180 + props.angle }deg);
     margin-left: 20px;
     width: 10rem;
     height: 10rem;
